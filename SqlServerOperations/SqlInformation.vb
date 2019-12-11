@@ -11,7 +11,9 @@ Imports SqlServerOperations.Classes
 ''' </summary>
 Public Class SqlInformation
     Inherits SqlServerConnection
-
+    ''' <summary>
+    ''' Setup to construct database connection string
+    ''' </summary>
     Public Sub New()
         ' TODO Change this to .\SQLEXPRESS for release
         DatabaseServer = "KARENS-PC"
