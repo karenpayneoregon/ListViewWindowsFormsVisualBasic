@@ -123,5 +123,11 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SqlServerOperations\SqlServerOperations.vbproj">
+      <Project>{01385380-B1C6-4B53-B141-3EC85AD79420}</Project>
+      <Name>SqlServerOperations</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
