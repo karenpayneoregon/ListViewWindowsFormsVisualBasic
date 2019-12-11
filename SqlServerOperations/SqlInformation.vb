@@ -13,6 +13,7 @@ Public Class SqlInformation
     Inherits SqlServerConnection
 
     Public Sub New()
+        ' TODO Change this to .\SQLEXPRESS for release
         DatabaseServer = "KARENS-PC"
         DefaultCatalog = "NorthWindAzure3"
     End Sub
@@ -48,7 +49,6 @@ Public Class SqlInformation
              </SQL>.Value
 
         Dim informationTable = New DataTable()
-
 
         Using cn = New SqlConnection() With {.ConnectionString = ConnectionString}
             Using cmd = New SqlCommand() With {.Connection = cn}
@@ -109,7 +109,7 @@ Public Class SqlInformation
 
     End Function
 
-    Public Function Products(ByVal pIdentifier As Integer) As List(Of Product)
+    Public Function Products(Identifier As Integer) As List(Of Product)
         mHasException = False
 
         Dim productList = New List(Of Product)()
@@ -132,8 +132,9 @@ Public Class SqlInformation
 
         Using cn = New SqlConnection() With {.ConnectionString = ConnectionString}
             Using cmd = New SqlCommand() With {.Connection = cn}
+
                 cmd.CommandText = selectStatement
-                cmd.Parameters.AddWithValue("@CategoryIdentifier", pIdentifier)
+                cmd.Parameters.AddWithValue("@CategoryIdentifier", Identifier)
 
                 Try
                     cn.Open()
@@ -171,7 +172,9 @@ Public Class SqlInformation
 
         Using cn = New SqlConnection() With {.ConnectionString = ConnectionString}
             Using cmd = New SqlCommand() With {.Connection = cn}
+
                 cmd.CommandText = selectStatement
+
                 Try
 
                     cn.Open()
@@ -194,6 +197,7 @@ Public Class SqlInformation
         End Using
 
         Return categoryList
+
     End Function
 
     Public Function GetOwnerContacts() As List(Of Contact)
@@ -310,6 +314,7 @@ Public Class SqlInformation
                         supplier.City = reader.GetString(5)
                         supplier.PostalCode = reader.GetString(6)
                         supplier.Country = reader.GetString(7)
+
                     End If
                 Catch e As Exception
                     mHasException = True

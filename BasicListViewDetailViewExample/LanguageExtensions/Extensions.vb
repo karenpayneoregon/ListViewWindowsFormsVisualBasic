@@ -1,8 +1,4 @@
-﻿Imports System.Collections.Generic
-Imports System.Linq
-Imports System.Windows.Forms
-
-Namespace LanguageExtensions
+﻿Namespace LanguageExtensions
     Public Module Extensions
         ''' <summary>
         ''' Provides the ability to remove selected rows in detail view.
