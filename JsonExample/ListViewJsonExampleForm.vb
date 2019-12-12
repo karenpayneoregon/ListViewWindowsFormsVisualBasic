@@ -3,7 +3,9 @@ Imports JsonLibrary
 Imports LanguageExtensions
 
 Public Class ListViewJsonExampleForm
+
     Private ReadOnly _fileOperations As New FileOperations()
+
     Private ReadOnly _fileName As String =
                          Path.Combine(
                              AppDomain.CurrentDomain.BaseDirectory,
@@ -14,6 +16,7 @@ Public Class ListViewJsonExampleForm
     End Sub
 
     Private Sub ListViewJsonExampleForm_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+
         listView1.View = View.Details
 
         listView1.GridLines = True
@@ -71,12 +74,14 @@ Public Class ListViewJsonExampleForm
         Dim appList = New List(Of JsonLibrary.Application)()
 
         For index As Integer = 0 To listView1.Items.Count - 1
+
             appList.Add(New Application() With {
                                .id = Convert.ToInt32(listView1.Items(index).Tag),
                                .ApplicationName = listView1.Items(index).SubItems(0).Text,
                                .ApplicationVersion = listView1.Items(index).SubItems(1).Text,
                                .ApplicationKey = listView1.Items(index).SubItems(2).Text
                            })
+
         Next
 
         _fileOperations.SaveApplicationData(appList, _fileName)

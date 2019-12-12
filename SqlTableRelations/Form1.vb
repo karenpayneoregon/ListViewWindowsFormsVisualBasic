@@ -5,16 +5,22 @@ Public Class Form1
     Private ReadOnly _tableInformation As New SqlInformation()
 
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+
         AddHandler listView1.ItemSelectionChanged, AddressOf ListView1_ItemSelectionChanged
+
         Dim items = _tableInformation.TableDependencies()
+
         tableInformationComboBox.DataSource = New BindingSource(items, Nothing)
         tableInformationComboBox.DisplayMember = "Key"
+
     End Sub
 
     Private Sub ListView1_ItemSelectionChanged(sender As Object, e As ListViewItemSelectionChangedEventArgs)
+
         If e.IsSelected Then
             DescriptionTextBox.Text = e.Item.Tag.ToString()
         End If
+
     End Sub
     ''' <summary>
     ''' Retrieve column details for selected table
@@ -22,6 +28,7 @@ Public Class Form1
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     Private Sub GetInformationButton_Click(sender As Object, e As EventArgs) Handles GetInformationButton.Click
+
         listView1.Items.Clear()
 
         Dim detailItems = (CType(tableInformationComboBox.SelectedItem, KeyValuePair(Of String, List(Of ServerTableItem))))
@@ -54,12 +61,14 @@ Public Class Form1
         Dim shadedBackgroundColor = Color.FromArgb(240, 240, 240)
 
         For Each item As ListViewItem In listView1.Items
+
             If index Mod 2 <> 1 Then
                 index += 1
                 Continue For
             Else
                 index += 1
             End If
+
             item.BackColor = shadedBackgroundColor
             item.UseItemStyleForSubItems = True
         Next

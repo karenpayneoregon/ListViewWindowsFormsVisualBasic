@@ -1,7 +1,6 @@
 ﻿Imports System.IO
 Imports Newtonsoft.Json
 
-
 ''' <summary>
 ''' Responsible, using JsonNet to read and write json
 ''' from a json file to and from a concrete class
@@ -30,9 +29,10 @@ Public Class FileOperations
     Public Sub SaveApplicationData(Applications As List(Of Application), FileName As String)
 
         Using streamWriter = File.CreateText(FileName)
-            Dim serializer = New JsonSerializer With {.Formatting = Formatting.Indented}
 
+            Dim serializer = New JsonSerializer With {.Formatting = Formatting.Indented}
             serializer.Serialize(streamWriter, Applications)
+
         End Using
 
     End Sub

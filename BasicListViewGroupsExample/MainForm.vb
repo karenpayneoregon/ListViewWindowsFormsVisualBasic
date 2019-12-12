@@ -4,6 +4,7 @@ Imports SqlServerOperations
 
 Public Class MainForm
     Private Sub MainForm_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+
         Dim dataOperations = New SqlInformation()
         Dim categories = dataOperations.Categories()
 
@@ -16,7 +17,7 @@ Public Class MainForm
             Dim products = dataOperations.Products(category.CategoryId)
 
             '                
-            '                 * Some category names have unwanted characters and/or whitespace, remove these chars.
+            ' Some category names have unwanted characters and/or whitespace, remove these chars.
             '                 
             groupName = category.Name.Replace("/", "").Replace(" ", "")
 
@@ -45,11 +46,18 @@ Public Class MainForm
 
 
                 If product.UnitsInStock = 0 Then
+
                     listViewProductItem.SubItems(4).ForeColor = Color.Red
-                    listViewProductItem.SubItems(4).Font = New Font(listViewProductItem.SubItems(4).Font.FontFamily, listViewProductItem.SubItems(4).Font.Size, FontStyle.Bold)
+
+                    listViewProductItem.SubItems(4).Font =
+                        New Font(
+                            listViewProductItem.SubItems(4).Font.FontFamily,
+                            listViewProductItem.SubItems(4).Font.Size, FontStyle.Bold)
+
                 End If
 
                 ProductListView.Items.Add(listViewProductItem)
+
             Next
         Next
 
@@ -58,11 +66,9 @@ Public Class MainForm
 
         ActiveControl = ProductListView
 
-        'ProductListView.ItemSelectionChanged += ProductListView_ItemSelectionChanged
-        'ProductListView.ItemCheck += ProductListView_ItemCheck
-
         AddHandler ProductListView.ItemSelectionChanged, AddressOf ProductListView_ItemSelectionChanged
         AddHandler ProductListView.ItemCheck, AddressOf ProductListView_ItemCheck
+
         GroupsComboBox.DataSource = ProductListView.Groups.Cast(Of ListViewGroup)().Select(Function(lvg) lvg.Name).ToList()
 
     End Sub
@@ -75,17 +81,21 @@ Public Class MainForm
     End Sub
 
     Private Sub ProductListView_ItemCheck(sender As Object, e As ItemCheckEventArgs)
+
         Dim primaryKeys = ProductListView.Items(e.Index).ProductTag()
 
         If e.NewValue = CheckState.Checked Then
-            ItemCheckedLabel.Text = $"Current checked: product: {primaryKeys.ProductId} category: {primaryKeys.CategoryId} " & $"supplier: {primaryKeys.SupplierId}"
+            ItemCheckedLabel.Text = $"Current checked: product: {primaryKeys.ProductId} category: {primaryKeys.CategoryId} " &
+                                    $"supplier: {primaryKeys.SupplierId}"
         Else
-            ItemCheckedLabel.Text = $"Current un-checked: product: {primaryKeys.ProductId} category: {primaryKeys.CategoryId} " & $"supplier: {primaryKeys.SupplierId}"
+            ItemCheckedLabel.Text = $"Current un-checked: product: {primaryKeys.ProductId} category: {primaryKeys.CategoryId} " &
+                                    $"supplier: {primaryKeys.SupplierId}"
         End If
 
     End Sub
 
     Private Sub SelectedProductsButton_Click(sender As Object, e As EventArgs) Handles SelectedProductsButton.Click
+
         Dim checkedItems = ProductListView.CheckedItems
 
         If checkedItems.Count > 0 Then
@@ -94,13 +104,15 @@ Public Class MainForm
             For index As Integer = 0 To checkedItems.Count - 1
                 Dim keys = checkedItems(index).ProductTag()
 
-                sb.AppendLine($"{keys.CategoryId}," & $"{checkedItems(index).Group.Header}," & $"{keys.ProductId}," & $"{checkedItems(index).Text}," & $"{keys.SupplierId}," & $"{checkedItems(index).SubItems(0).Text}")
-            Next
+                sb.AppendLine(
+                    $"{keys.CategoryId}," &
+                    $"{checkedItems(index).Group.Header}," &
+                    $"{keys.ProductId}," &
+                    $"{checkedItems(index).Text}," &
+                    $"{keys.SupplierId}," &
+                    $"{checkedItems(index).SubItems(0).Text}")
 
-            '                
-            '                 * Show selected products, in a real application this data
-            '                 * would be sent to a method to process the products
-            '                 
+            Next
 
             Dim f = New SelectedProductsForm(sb.ToString())
 
@@ -115,33 +127,64 @@ Public Class MainForm
 
     End Sub
 
-    Private Sub HoverSelectionCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles HoverSelectionCheckBox.CheckedChanged
+    Private Sub HoverSelectionCheckBox_CheckedChanged(sender As Object, e As EventArgs) _
+        Handles HoverSelectionCheckBox.CheckedChanged
+
         ProductListView.HoverSelection = HoverSelectionCheckBox.Checked
+
     End Sub
 
     Private Sub GetGroupProductsButton_Click(sender As Object, e As EventArgs) Handles GetGroupProductsButton.Click
-        Dim specificGroup = ProductListView.Groups.Cast(Of ListViewGroup)().FirstOrDefault(Function(lvg) lvg.Name = GroupsComboBox.Text)
+
+        Dim sb As New StringBuilder
+
+        Dim specificGroup = ProductListView.Groups.Cast(Of ListViewGroup)().
+                FirstOrDefault(Function(lvg) lvg.Name = GroupsComboBox.Text)
 
         For index As Integer = 0 To specificGroup.Items.Count - 1
             Dim productTag = specificGroup.Items(index).ProductTag()
-            Console.WriteLine($"Id: {productTag.ProductId} Product: {specificGroup.Items(index).Text}")
+            sb.AppendLine($"Id: {productTag.ProductId} Product: {specificGroup.Items(index).Text}")
         Next
+
+        Dim viewerForm As New UtilityViewerForm(sb.ToString())
+        viewerForm.Text = $"Category: {GroupsComboBox.Text}"
+
+        Try
+            viewerForm.ShowDialog()
+        Finally
+            viewerForm.Dispose()
+        End Try
 
     End Sub
 
     Private Sub IterateListViewGroupsButton_Click(sender As Object, e As EventArgs) Handles IterateListViewGroupsButton.Click
+
+        Dim sb As New StringBuilder
+
         For index As Integer = 0 To ProductListView.Groups.Count - 1
-            Console.WriteLine(ProductListView.Groups(index).Header)
-            Console.WriteLine()
-            Console.WriteLine("Product id  Supplier id")
+
+            sb.AppendLine(ProductListView.Groups(index).Header)
+            sb.AppendLine()
+            sb.AppendLine("Product id  Supplier id")
+
             Dim itemsIndex As Integer = 0
+
             Do While itemsIndex < ProductListView.Groups(index).Items.Count
                 Dim keys = ProductListView.Groups(index).Items(itemsIndex).ProductTag()
-                Console.WriteLine($"{keys.ProductId,5} {keys.SupplierId,12}")
+                sb.AppendLine($"{keys.ProductId,5} {keys.SupplierId,12}")
                 itemsIndex += 1
             Loop
 
-            Console.WriteLine()
+            sb.AppendLine()
         Next
+
+        Dim viewerForm As New UtilityViewerForm(sb.ToString())
+        viewerForm.Text = "Iterate product/suppliers by category"
+
+        Try
+            viewerForm.ShowDialog()
+        Finally
+            viewerForm.Dispose()
+        End Try
     End Sub
 End Class

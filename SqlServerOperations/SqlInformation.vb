@@ -70,10 +70,10 @@ Public Class SqlInformation
         End Using
 
         Dim anonymousResult = From row In informationTable.AsEnumerable()
-                              Group row By GroupKey = row.Field(Of String)("Table") Into grp = Group
+                              Group row By groupKey = row.Field(Of String)("Table") Into grp = Group
                               Select New With
                     {
-                        Key .TableName = GroupKey,
+                        Key .TableName = groupKey,
                         Key .Rows = grp,
                         Key .Count = grp.Count()
                     }
