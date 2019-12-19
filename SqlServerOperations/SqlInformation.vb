@@ -15,8 +15,7 @@ Public Class SqlInformation
     ''' Setup to construct database connection string
     ''' </summary>
     Public Sub New()
-        ' TODO Change this to .\SQLEXPRESS for release
-        DatabaseServer = "KARENS-PC"
+        DatabaseServer = ".\SQLEXPRESS"
         DefaultCatalog = "NorthWindAzure3"
     End Sub
 
