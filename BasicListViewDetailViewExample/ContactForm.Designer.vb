@@ -31,6 +31,7 @@ Partial Class ContactForm
         Me.ExitButton = New System.Windows.Forms.Button()
         Me.panel1 = New System.Windows.Forms.Panel()
         Me.RemoveSelectedButton = New System.Windows.Forms.Button()
+        Me.IterateRowsButton = New System.Windows.Forms.Button()
         Me.panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -39,6 +40,7 @@ Partial Class ContactForm
         Me.ownerContactListView.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.CompanyName, Me.FirstNameColumn, Me.LastNameColumn, Me.PhoneColumn, Me.CountryColumn})
         Me.ownerContactListView.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ownerContactListView.FullRowSelect = True
+        Me.ownerContactListView.HideSelection = False
         Me.ownerContactListView.Location = New System.Drawing.Point(0, 0)
         Me.ownerContactListView.Name = "ownerContactListView"
         Me.ownerContactListView.Size = New System.Drawing.Size(566, 380)
@@ -77,6 +79,7 @@ Partial Class ContactForm
         '
         'panel1
         '
+        Me.panel1.Controls.Add(Me.IterateRowsButton)
         Me.panel1.Controls.Add(Me.RemoveSelectedButton)
         Me.panel1.Controls.Add(Me.ExitButton)
         Me.panel1.Dock = System.Windows.Forms.DockStyle.Bottom
@@ -93,6 +96,15 @@ Partial Class ContactForm
         Me.RemoveSelectedButton.TabIndex = 1
         Me.RemoveSelectedButton.Text = "Remove selected"
         Me.RemoveSelectedButton.UseVisualStyleBackColor = True
+        '
+        'IterateRowsButton
+        '
+        Me.IterateRowsButton.Location = New System.Drawing.Point(125, 25)
+        Me.IterateRowsButton.Name = "IterateRowsButton"
+        Me.IterateRowsButton.Size = New System.Drawing.Size(100, 23)
+        Me.IterateRowsButton.TabIndex = 2
+        Me.IterateRowsButton.Text = "Iterate rows"
+        Me.IterateRowsButton.UseVisualStyleBackColor = True
         '
         'ContactForm
         '
@@ -119,4 +131,5 @@ Partial Class ContactForm
     Private WithEvents ExitButton As Button
     Private WithEvents panel1 As Panel
     Private WithEvents RemoveSelectedButton As Button
+    Friend WithEvents IterateRowsButton As Button
 End Class

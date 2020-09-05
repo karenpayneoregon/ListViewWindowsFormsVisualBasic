@@ -1,5 +1,6 @@
 ﻿Imports BasicListViewDetailViewExample.LanguageExtensions
 Imports SqlServerOperations
+Imports SqlServerOperations.Classes
 
 Public Class ContactForm
     Private Sub ContactForm_Shown(sender As Object, e As EventArgs) Handles Me.Shown
@@ -80,4 +81,27 @@ Public Class ContactForm
     Private Sub ExitButton_Click(sender As Object, e As EventArgs) Handles ExitButton.Click
         Close()
     End Sub
+
+    Private Sub IterateRowsButton_Click(sender As Object, e As EventArgs) Handles IterateRowsButton.Click
+        Dim contactList As New List(Of Contact)
+
+        For Each listViewItem As ListViewItem In ownerContactListView.Items
+
+            Dim contact As New Contact With {
+                    .CompanyName = listViewItem.Text,
+                    .FirstName = listViewItem.SubItems(0).Text,
+                    .LastName = listViewItem.SubItems(2).Text,
+                    .PhoneNumber = listViewItem.SubItems(3).Text,
+                    .CountryName = listViewItem.SubItems(4).Text}
+
+            contactList.Add(contact)
+
+        Next
+
+        Dim dataOperations = New SqlInformation()
+        dataOperations.AddContacts(contactList)
+
+
+    End Sub
 End Class
+

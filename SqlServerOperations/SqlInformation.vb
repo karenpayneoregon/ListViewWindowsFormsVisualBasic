@@ -262,6 +262,11 @@ Public Class SqlInformation
 
         Return ownerContacts
     End Function
+    Public Sub AddContacts(ByRef contactList As List(Of Contact))
+        '
+        ' Perform insert
+        '
+    End Sub
     ''' <summary>
     ''' Unused, here for article informational only
     ''' </summary>
