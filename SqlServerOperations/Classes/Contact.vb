@@ -7,6 +7,7 @@
         Public Property PhoneTypeDescription() As String
         Public Property PhoneNumber() As String
         Public Property CountryName() As String
+        Public Property CountryNameValue() As String
 
         Public ReadOnly Property ItemArray() As String()
             Get

@@ -3,14 +3,16 @@ Imports SqlServerOperations
 Imports SqlServerOperations.Classes
 
 Public Class ContactForm
+    Private contactList As List(Of Contact)
+
     Private Sub ContactForm_Shown(sender As Object, e As EventArgs) Handles Me.Shown
 
         Dim dataOperations = New SqlInformation()
-        Dim contacts = dataOperations.GetOwnerContacts()
+        contactList = dataOperations.GetOwnerContacts()
 
         ownerContactListView.BeginUpdate()
 
-        For Each contact In contacts
+        For Each contact In contactList
 
             ownerContactListView.Items.Add(
                 New ListViewItem(contact.ItemArray) With
@@ -32,9 +34,24 @@ Public Class ContactForm
     Private Sub ownerContactListView_MouseDoubleClick(sender As Object, e As MouseEventArgs) _
         Handles ownerContactListView.MouseDoubleClick
 
-        MessageBox.Show(
-            $"Call {ownerContactListView.SelectedItems(0).Text} at " &
-            $"{ownerContactListView.SelectedItems(0).SubItems(3).Text}")
+        Dim test = CInt(ownerContactListView.SelectedItems(0).Tag)
+        Dim countryCurrent = ownerContactListView.SelectedItems(0).SubItems(4).Text
+
+        If countryCurrent = "*****" Then
+
+            ownerContactListView.SelectedItems(0).SubItems(4).Text = contactList.
+                FirstOrDefault(Function(contact) contact.CustomerIdentifier =
+                                                 CInt(ownerContactListView.SelectedItems(0).Tag)).CountryNameValue
+        Else
+            ownerContactListView.SelectedItems(0).SubItems(4).Text = "*****"
+        End If
+
+
+        Console.WriteLine()
+
+        'MessageBox.Show(
+        '    $"Call {ownerContactListView.SelectedItems(0).Text} at " &
+        '    $"{ownerContactListView.SelectedItems(0).SubItems(3).Text}")
 
     End Sub
     ''' <summary>
@@ -82,7 +99,9 @@ Public Class ContactForm
         Close()
     End Sub
 
-    Private Sub IterateRowsButton_Click(sender As Object, e As EventArgs) Handles IterateRowsButton.Click
+    Private Sub IterateRowsButton_Click(sender As Object, e As EventArgs) _
+        Handles IterateRowsButton.Click
+
         Dim contactList As New List(Of Contact)
 
         For Each listViewItem As ListViewItem In ownerContactListView.Items
@@ -100,7 +119,6 @@ Public Class ContactForm
 
         Dim dataOperations = New SqlInformation()
         dataOperations.AddContacts(contactList)
-
 
     End Sub
 End Class

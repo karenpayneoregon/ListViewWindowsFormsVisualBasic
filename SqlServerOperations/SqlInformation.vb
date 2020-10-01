@@ -16,7 +16,7 @@ Public Class SqlInformation
     ''' </summary>
     Public Sub New()
         DatabaseServer = ".\SQLEXPRESS"
-        DefaultCatalog = "NorthWindAzure3"
+        DefaultCatalog = "NorthWindAzure2"
     End Sub
 
     Public Function TableDependencies() As Dictionary(Of String, List(Of ServerTableItem))
@@ -249,7 +249,8 @@ Public Class SqlInformation
                              .LastName = reader.GetString(3),
                              .PhoneTypeDescription = reader.GetString(4),
                              .PhoneNumber = reader.GetString(5),
-                             .CountryName = reader.GetString(6)
+                             .CountryName = "*****",
+                             .CountryNameValue = reader.GetString(6)
                          })
                     Loop
 
