@@ -102,7 +102,7 @@ Public Class ContactForm
     Private Sub IterateRowsButton_Click(sender As Object, e As EventArgs) _
         Handles IterateRowsButton.Click
 
-        Dim contactList As New List(Of Contact)
+        Dim contactList = New List(Of Contact)
 
         For Each listViewItem As ListViewItem In ownerContactListView.Items
 

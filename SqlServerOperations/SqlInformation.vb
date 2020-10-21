@@ -249,7 +249,7 @@ Public Class SqlInformation
                              .LastName = reader.GetString(3),
                              .PhoneTypeDescription = reader.GetString(4),
                              .PhoneNumber = reader.GetString(5),
-                             .CountryName = "*****",
+                             .CountryName = reader.GetString(6),
                              .CountryNameValue = reader.GetString(6)
                          })
                     Loop
